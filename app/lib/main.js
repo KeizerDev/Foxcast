@@ -14,7 +14,7 @@ var { ToggleButton } = require('sdk/ui/button/toggle');
 var { PageMod } = require('sdk/page-mod');
 var { Panel } = require('sdk/panel');
 var Request = require("sdk/request").Request;
-var parser = Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.nsIDOMParser);
+// var parser = Cc.classes["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.interfaces.nsIDOMParser);
 
 var popup = Panel({
     contentURL: data.url('popup.html'),
@@ -37,10 +37,12 @@ function handleClick(state) {
 
 popup.port.on("text-entered", function (ip) {
     Request({
-        url: "http://" + ip + ":8008/ssdp/device-desc.xml",
+        // url: "http://" + ip + ":8008/ssdp/device-desc.xml",
+        url: "http://www.w3schools.com/dom/books.xml",
         content: {q: "test"},
         onComplete: function (response) {
-            console.log(response.text);
+            var doc = Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.nsIDOMParser).parseFromString(response.text, "application/xml");
+            console.log(doc.getElementsByTagName("title")[0].childNodes[0].nodeValue);
         }
     }).get();
 });
