@@ -14,7 +14,11 @@ Build with:
 ``npm install & bower install`` 
 
 To debug run:
-``grunt run``  
+``grunt run``
+
+## Development
+For development of this add-on you should also install the [Mozilla Add-on SDK](https://developer.mozilla.org/en-US/Add-ons/SDK/Tutorials/Installation).
+Make sure to ``source bin/active`` in the add-on directory to activate paths to executables in your current terminal session.
   
   
 
