@@ -1,0 +1,9 @@
+{
+    "name": "foxcast",
+    "id": "Foxcast@github.com",
+    "title": "Foxcast",
+    "description": "My Firefox Extension",
+    "author": "KeizerDev",
+    "license": "MPL 2.0",
+    "version": "0.1.0"
+}
