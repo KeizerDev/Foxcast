@@ -13,7 +13,7 @@ var { Panel } = require('sdk/panel');
 
 var popup = Panel({
     contentURL: data.url('popup.html'),
-    popupScript: data.url('popup.js'),
+    contentScriptFile: data.url('popup.js'),
     onHide: function () {
         button.state('window', {checked: false});
     }
@@ -30,6 +30,10 @@ function handleClick(state) {
     }
 }
 
+popup.port.on("text-entered", function (text) {
+  console.log(text);
+});
+
 // Create a button
 var button = ToggleButton({
     id: 'show-popup',
@@ -45,8 +49,14 @@ var button = ToggleButton({
 
 // Create a content script
 var pageMod = PageMod({
-    include: ['*'], // all urls
+    include: /^http[s]*\:\/\/.*youtube.com\/.*/, // all urls
     contentScriptFile: [data.url('contentscript.js')],
-    contentStyleFile: [data.url('contentstyle.css')]
+    contentStyleFile: [data.url('contentstyle.css')], 
+    onAttach: function(worker){
+        worker.port.on('update', function(){
+            console.log('update from contentscript');
+            worker.port.emit('include'); // call the script update
+        });
+    },
+    contentScriptWhen : 'start',
 });
-
