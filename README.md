@@ -2,11 +2,14 @@
 Making a Chromecast work on Firefox with this extension
 
 ## Goals:
+- [ ] Show name of Chromecast if exist on ip.
+- [ ] Create a similair layout/style as [this](https://lh3.googleusercontent.com/EkTIaGSPLZHBuEv9Dk7fDDG_Lt3kjJ1u9stXLvaZqMQsaMqbSp1-Gg06HC6UPALQFuBPypkimKo=s640-h400-e365)
 - [ ] Autosearch for Chromecasts in network by implementing [this](https://github.com/xat/chromecast-scanner/blob/master/index.js).
 - [ ] Implementing youtube.
 - [ ] Add cast button to youtube player using a content script.
-- [ ] Implementing support for more services
-- [ ] Implementing support for the Chromecast SDK 
+- [ ] Implementing support for more services.
+- [ ] Implementing support for the Chromecast SDK.
+
 
 
 ## Build
