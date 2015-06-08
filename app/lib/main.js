@@ -4,12 +4,17 @@
  * Enable dubug mode
  * This allow to console.log in a firefox default configuration
  */
-require('sdk/preferences/service').set('extensions.sdk.console.logLevel', 'debug');
+
+ // 192.168.0.134
+require('sdk/preferences/service').set('extensions.sdk.console.logLevel', 'all');
 
 var data = require('sdk/self').data;
+var {Cc, Ci} = require('chrome');
 var { ToggleButton } = require('sdk/ui/button/toggle');
 var { PageMod } = require('sdk/page-mod');
 var { Panel } = require('sdk/panel');
+var Request = require("sdk/request").Request;
+var parser = Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.nsIDOMParser);
 
 var popup = Panel({
     contentURL: data.url('popup.html'),
@@ -30,8 +35,14 @@ function handleClick(state) {
     }
 }
 
-popup.port.on("text-entered", function (text) {
-  console.log(text);
+popup.port.on("text-entered", function (ip) {
+    Request({
+        url: "http://" + ip + ":8008/ssdp/device-desc.xml",
+        content: {q: "test"},
+        onComplete: function (response) {
+            console.log(response.text);
+        }
+    }).get();
 });
 
 // Create a button
@@ -58,5 +69,5 @@ var pageMod = PageMod({
             worker.port.emit('include'); // call the script update
         });
     },
-    contentScriptWhen : 'start',
+    contentScriptWhen : 'start'
 });

@@ -15,5 +15,17 @@ chromeip.addEventListener('keyup', function onkeyup(event) {
 // just start typing
 
 self.port.on("show", function onShow() {
-  chromeip.focus();
+	chromeip.focus();
+	exports.main = function() {
+	    var Request = require("request").Request;
+	    Request({
+	      url: "http://google.com/",
+	      content: {q: "test"},
+	      onComplete: function (response) {
+	        console.log(response.text);
+	        
+	      }
+	    }).get();
+	};
 });
+
