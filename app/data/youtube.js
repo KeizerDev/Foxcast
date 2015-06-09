@@ -2,7 +2,7 @@
 (function() {
     "use strict";
     var player, player_container;
-
+    var ip = "192.168.0.134";
     onReady(() => {
         // onInit does not works on channel/user page videos
         player = createNode("video");
@@ -20,6 +20,7 @@
         });
     });
 
+    // Change to chromecast player layout 
     function changePlayer() {
         getConfig()
             .then(getVideoInfo)
@@ -91,7 +92,7 @@
         error_container.style.background = "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626";
         rmChildren(error_container);
         error_container.appendChild(createNode("p", {
-            textContent: "Ooops! :("
+            textContent: "Chromecast failed :("
         }, {
             padding: "15px",
             fontSize: "20px"

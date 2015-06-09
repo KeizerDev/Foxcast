@@ -14,6 +14,7 @@ var { ToggleButton } = require('sdk/ui/button/toggle');
 var { PageMod } = require('sdk/page-mod');
 var { Panel } = require('sdk/panel');
 var Request = require("sdk/request").Request;
+var thisIp;
 
 const drivers = [
     require("./youtube")
@@ -52,11 +53,14 @@ var button = ToggleButton({
     
 });
 
+
+
 popup.port.on("text-entered", function(ip) {
     Request({
         url: "http://" + ip + ":8008/ssdp/device-desc.xml",
         content: {q: "test"},
         onComplete: function (response) {
+            thisIp = "http://" + ip + ":8008/ssdp/device-desc.xml";
             var doc = Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.nsIDOMParser).parseFromString(response.text, "application/xml");
             console.log(doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
             popup.port.emit("getChromeInformation", doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
