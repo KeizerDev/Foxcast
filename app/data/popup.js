@@ -18,3 +18,6 @@ self.port.on("show", function onShow() {
 	chromeip.focus();
 });
 
+self.port.on("getChromeInformation", function getChromeInformation(data) {
+	document.getElementsByClassName("chromecast-container")[0].innerHTML = '<li class="chromecast-item"><div class="chromecast-icon"></div><span class="chromecast-name">'+ data +'</span></li>';
+});
