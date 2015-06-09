@@ -20,4 +20,19 @@ self.port.on("show", function onShow() {
 
 self.port.on("getChromeInformation", function getChromeInformation(data) {
 	document.getElementsByClassName("chromecast-container")[0].innerHTML = '<li class="chromecast-item"><div class="chromecast-icon"></div><span class="chromecast-name">'+ data +'</span></li>';
+	toggle("chromecast-container");
 });
+
+function toggle(id) {
+    var element = document.getElementsByClassName(id)[0];
+
+    if (element) {
+        var display = element.style.display;
+
+        if (display == "none") {
+            element.style.display = "block";
+        } else {
+            element.style.display = "none";
+        }
+    }
+}

@@ -14,7 +14,11 @@ var { ToggleButton } = require('sdk/ui/button/toggle');
 var { PageMod } = require('sdk/page-mod');
 var { Panel } = require('sdk/panel');
 var Request = require("sdk/request").Request;
-// var parser = Cc.classes["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.interfaces.nsIDOMParser);
+
+const drivers = [
+    require("./youtube")
+];
+// Structure of https://github.com/lejenome/html5-video-everywhere/blob/master/lib/main.js
 
 var popup = Panel({
     contentURL: data.url('popup.html'),
@@ -60,16 +64,60 @@ var button = ToggleButton({
     
 });
 
-// Create a content script
-var pageMod = PageMod({
-    include: /^http[s]*\:\/\/.*youtube.com\/.*/, // all urls
-    contentScriptFile: [data.url('contentscript.js')],
-    contentStyleFile: [data.url('contentstyle.css')], 
-    onAttach: function(worker){
-        worker.port.on('update', function(){
-            console.log('update from contentscript');
-            worker.port.emit('include'); // call the script update
-        });
-    },
-    contentScriptWhen : 'start'
-});
+
+for (let driver of drivers) {
+    if (driver.match === void(0))
+        continue;
+    var pageMod = PageMod({
+        include: driver.match,
+        contentScriptFile: driver.inject.map(i => data.url(i)),
+        contentScriptWhen: driver.when || "ready",
+        onAttach: onWorkerAttach
+    });
+}
+
+function listener(event) {
+    var channel = event.subject.QueryInterface(Ci.nsIHttpChannel);
+    var url = event.subject.URI.spec;
+    for (let driver of drivers) {
+        for (let redirect of(driver.redirect || [])) {
+            if (redirect.src.test(url)) {
+                channel.redirectTo(Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService).newURI(
+                    String.replace(url, redirect.src, redirect.funct),
+                    null,
+                    null));
+                console.log("Redirect:", url);
+                return;
+            }
+        }
+        for (let block of(driver.block || [])) {
+            if (block.test(url)) {
+                channel.cancel(Cr.NS_BINDING_ABORTED);
+                console.log("Block:", url);
+                return;
+            }
+        }
+    }
+}
+
+
+
+function onWorkerAttach(worker) {
+    console.log("onAttach", worker);
+    //send current Addon preferences to content-script
+    let _prefs = {};
+    for (let pref in prefs)
+        _prefs[pref] = prefs[pref];
+    worker.port.emit("preferences", _prefs);
+    add(workers, worker);
+    worker.on("detach", function(e) {
+        remove(workers, this);
+    });
+}
+
+// exports.main = function() {
+//     events.on("http-on-modify-request", listener);
+// };
+// exports.onUnload = function(reason) {
+//     events.off("http-on-modify-request", listener);
+// };
