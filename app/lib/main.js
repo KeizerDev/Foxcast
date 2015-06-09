@@ -39,18 +39,6 @@ function handleClick(state) {
     }
 }
 
-popup.port.on("text-entered", function (ip) {
-    Request({
-        url: "http://" + ip + ":8008/ssdp/device-desc.xml",
-        content: {q: "test"},
-        onComplete: function (response) {
-            var doc = Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.nsIDOMParser).parseFromString(response.text, "application/xml");
-            console.log(doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
-            popup.port.emit("getChromeInformation", doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
-        }
-    }).get();
-});
-
 // Create a button
 var button = ToggleButton({
     id: 'show-popup',
@@ -62,6 +50,34 @@ var button = ToggleButton({
     },
     onClick: handleClick
     
+});
+
+popup.port.on("text-entered", function(ip) {
+    Request({
+        url: "http://" + ip + ":8008/ssdp/device-desc.xml",
+        content: {q: "test"},
+        onComplete: function (response) {
+            var doc = Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.nsIDOMParser).parseFromString(response.text, "application/xml");
+            console.log(doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
+            popup.port.emit("getChromeInformation", doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
+        }
+    }).get();
+});
+
+popup.port.on("chromecast-connect", function(connected) {
+    if (connected == true) {
+        button.icon = {
+            '16': './icons/chromecast-icon-16.png',
+            '32': './icons/chromecast-icon-32.png',
+            '64': './icons/chromecast-icon-32.png'
+        };
+    } else {
+        button.icon = {
+        '16': './images/icon-16.png',
+        '32': './images/icon-32.png',
+        '64': './images/icon-64.png'
+        };
+    }
 });
 
 

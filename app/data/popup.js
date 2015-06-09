@@ -1,3 +1,4 @@
+var connected = false;
 var chromeip = document.getElementById("chromecast-ip");
 chromeip.addEventListener('keyup', function onkeyup(event) {
   if (event.keyCode == 13) {
@@ -19,20 +20,20 @@ self.port.on("show", function onShow() {
 });
 
 self.port.on("getChromeInformation", function getChromeInformation(data) {
-	document.getElementsByClassName("chromecast-container")[0].innerHTML = '<li class="chromecast-item"><div class="chromecast-icon"></div><span class="chromecast-name">'+ data +'</span></li>';
-	toggle("chromecast-container");
+	container = document.getElementsByClassName("chromecast-container")[0];
+	
+	container.innerHTML = '<li class="chromecast-item"><div class="chromecast-icon"></div><span class="chromecast-name">'+ data +'</span></li>';
+	document.getElementsByClassName("chromecast-item")[0].addEventListener('click', function() { 
+		connectToggle();
+	}, false);
 });
 
-function toggle(id) {
-    var element = document.getElementsByClassName(id)[0];
-
-    if (element) {
-        var display = element.style.display;
-
-        if (display == "none") {
-            element.style.display = "block";
-        } else {
-            element.style.display = "none";
-        }
+function connectToggle() {
+    if (connected == false) {
+       	connected = true;
+        self.port.emit("chromecast-connect", true);
+    } else {
+    	connected = false;
+        self.port.emit("chromecast-connect", false);
     }
 }
