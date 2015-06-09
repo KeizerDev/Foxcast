@@ -67,15 +67,15 @@ popup.port.on("text-entered", function(ip) {
 popup.port.on("chromecast-connect", function(connected) {
     if (connected == true) {
         button.icon = {
-            '16': './icons/chromecast-icon-16.png',
-            '32': './icons/chromecast-icon-32.png',
-            '64': './icons/chromecast-icon-32.png'
+            '16': './icons/icon48.png',
+            '32': './icons/icon128.png',
+            '64': './icons/icon128.png'
         };
     } else {
         button.icon = {
-        '16': './images/icon-16.png',
-        '32': './images/icon-32.png',
-        '64': './images/icon-64.png'
+            '16': './images/icon-16.png',
+            '32': './images/icon-32.png',
+            '64': './images/icon-64.png'
         };
     }
 });
