@@ -33,6 +33,14 @@ var popup = Panel({
 
 // Show the popup when the user clicks the button.
 function handleClick(state) {
+
+    Request({
+        url: "http://192.168.0.134:8008/apps/YouTube",
+        content: "v=jlHZ_Z8sUMs",
+        onComplete: function (response) {
+            console.log("request done" + response.status + " - " + response.statusText + " - " + JSON.stringify(response.headers));
+        }
+    }).post();
     if (state.checked) {
         popup.show({
             position: button,
@@ -140,7 +148,7 @@ function onWorkerAttach(worker) {
             Request({
                 url: "http://" + thisIp + ":8008/apps/YouTube",
                 content: "v="+ id,
-                contentType: "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
+                contentType: "Content-Type: application/x-www-form-urlencoded",
                 onComplete: function (response) {
                     console.log("request done" + response.status + " - " + response.statusText + " - " + JSON.stringify(response.headers));
                 }
