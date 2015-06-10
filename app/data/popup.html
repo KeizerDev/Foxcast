@@ -4,23 +4,7 @@
         <meta charset="utf-8">
         <!-- bower:css -->
         <!-- endbower -->
-        <style type="text/css" media="all">
-            html {  box-sizing: border-box; }
-            *, *:before, *:after { box-sizing: inherit;}
-            body { margin: 0; background-color: #fff; font-family:'Noto Sans','Segoe UI','Lucida Grande','Open Sans',arial,sans-serif; color: #333; }
-            b { padding: 1.5% 0; font-size: 15px; display: block; }
-            .input-holder { padding: 0% 4% 2% 4%; width: 100%; border-bottom: 1px solid #ecf0f1;}
-            #chromecast-ip { width: 100%; padding: 1%; margin: 0 auto; display: block; border: 1px solid #95a5a6; font-size: 15px; }
-            ul { margin:0; padding:0; -moz-user-select: none; }
-            ul .chromecast-item { list-style: none; margin:0; padding: 0 4%; height: 34px; display: block;  border-bottom: 1px solid #ecf0f1; }
-            ul .chromecast-item:hover { background-image:-moz-linear-gradient(top,#4d90fe,#357ae8);}
-            .chromecast-item .chromecast-name:before { content: " "; height: 26px; width: 32px; background-image: url('icons/chromecast-icon-32.png'); top: -2px; left: -42px; position: absolute;}
-            .chromecast-item .chromecast-name { margin-left: 42px; line-height: 34px; font-size: 15px; position: relative; font-weight: 600;}
-            .foxcast-settings {position: absolute; bottom: 0; width: 100%;}
-            .foxcast-settings li {width: 50%; display: inline-block; float: left; text-align: center; line-height: 40px; background-image:-moz-linear-gradient(top,#fefefe,#dedede); border-top: 1px solid #95a5a6;}
-            .foxcast-settings li:first-child {border-right: 1px solid #95a5a6;}
-            .foxcast-settings li:hover {background-image: -moz-linear-gradient(top,#4d90fe,#357ae8);} 
-        </style>
+        <link rel="stylesheet" type="text/css" href="popup.css">
     </head>
     <body>
         <div class="input-holder">
@@ -31,7 +15,7 @@
         <ul class="chromecast-container"></ul>
 
         <ul class="foxcast-settings">
-            <li>?</li>
+            <li>Help</li>
             <li>*</li>
         </ul>
         <!-- bower:js -->
