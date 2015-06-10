@@ -15,7 +15,6 @@ var { PageMod } = require('sdk/page-mod');
 var { Panel } = require('sdk/panel');
 var Request = require("sdk/request").Request;
 var thisIp;
-var socket = Cc["@mozilla.org/tcp-socket;1"].createInstance(Ci.nsIDOMTCPSocket);
 
 const drivers = [
     require("./youtube")
@@ -133,19 +132,21 @@ function onWorkerAttach(worker) {
     console.log("onAttach", worker);
     //send current Addon preferences to content-script
 
-    // worker.port.on("yt-castvid", function(id) {
-    //     console.log(id + " - " + thisIp + "'v="+ id + "'");
-    //     if (chromecastConnection == true) {
-    //         Request({
-    //             url: "http://" + thisIp + ":8008/apps/YouTube",
-    //             content: "v="+ id,
-    //             contentType: "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
-    //             onComplete: function (response) {
-    //                 console.log("request done" + response.status + " - " + response.statusText + " - " + JSON.stringify(response.headers));
-    //             }
-    //         }).post();
-    //     }
-    // });
+
+    // Why isn't this the same as curl -d "v=g93mz_eZ5N4" http://192.168.0.134:8008/apps/YouTube
+    worker.port.on("yt-castvid", function(id) {
+        console.log(id + " - " + thisIp + "'v="+ id + "'");
+        if (chromecastConnection == true) {
+            Request({
+                url: "http://" + thisIp + ":8008/apps/YouTube",
+                content: "v="+ id,
+                contentType: "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
+                onComplete: function (response) {
+                    console.log("request done" + response.status + " - " + response.statusText + " - " + JSON.stringify(response.headers));
+                }
+            }).post();
+        }
+    });
 
 
 
