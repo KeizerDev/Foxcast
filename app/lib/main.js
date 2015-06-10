@@ -15,11 +15,14 @@ var { PageMod } = require('sdk/page-mod');
 var { Panel } = require('sdk/panel');
 var Request = require("sdk/request").Request;
 var thisIp;
+var socket = Cc["@mozilla.org/tcp-socket;1"].createInstance(Ci.nsIDOMTCPSocket);
 
 const drivers = [
     require("./youtube")
 ];
 // Structure of https://github.com/lejenome/html5-video-everywhere/blob/master/lib/main.js
+
+var chromecastConnection = false;
 
 var popup = Panel({
     contentURL: data.url('popup.html'),
@@ -60,7 +63,7 @@ popup.port.on("text-entered", function(ip) {
         url: "http://" + ip + ":8008/ssdp/device-desc.xml",
         content: {q: "test"},
         onComplete: function (response) {
-            thisIp = "http://" + ip + ":8008/ssdp/device-desc.xml";
+            thisIp = ip;
             var doc = Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.nsIDOMParser).parseFromString(response.text, "application/xml");
             console.log(doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
             popup.port.emit("getChromeInformation", doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
@@ -70,12 +73,14 @@ popup.port.on("text-entered", function(ip) {
 
 popup.port.on("chromecast-connect", function(connected) {
     if (connected == true) {
+        chromecastConnection = true;
         button.icon = {
             '16': './icons/icon48.png',
             '32': './icons/icon128.png',
             '64': './icons/icon128.png'
         };
     } else {
+        chromecastConnection = false;
         button.icon = {
             '16': './images/icon-16.png',
             '32': './images/icon-32.png',
@@ -83,6 +88,8 @@ popup.port.on("chromecast-connect", function(connected) {
         };
     }
 });
+
+
 
 
 for (let driver of drivers) {
@@ -125,6 +132,24 @@ function listener(event) {
 function onWorkerAttach(worker) {
     console.log("onAttach", worker);
     //send current Addon preferences to content-script
+
+    // worker.port.on("yt-castvid", function(id) {
+    //     console.log(id + " - " + thisIp + "'v="+ id + "'");
+    //     if (chromecastConnection == true) {
+    //         Request({
+    //             url: "http://" + thisIp + ":8008/apps/YouTube",
+    //             content: "v="+ id,
+    //             contentType: "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
+    //             onComplete: function (response) {
+    //                 console.log("request done" + response.status + " - " + response.statusText + " - " + JSON.stringify(response.headers));
+    //             }
+    //         }).post();
+    //     }
+    // });
+
+
+
+
     let _prefs = {};
     for (let pref in prefs)
         _prefs[pref] = prefs[pref];
@@ -135,9 +160,3 @@ function onWorkerAttach(worker) {
     });
 }
 
-// exports.main = function() {
-//     events.on("http-on-modify-request", listener);
-// };
-// exports.onUnload = function(reason) {
-//     events.off("http-on-modify-request", listener);
-// };
