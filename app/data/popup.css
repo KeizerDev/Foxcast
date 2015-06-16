@@ -1,115 +1,108 @@
-html
-{
-  box-sizing:border-box;
+html {
+    box-sizing: border-box;
 }
 
-*, *:before, *:after
-{
-  box-sizing:inherit;
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
 }
 
-body
-{
-  background-color:#fff;
-  font-family:'Noto Sans','Segoe UI','Lucida Grande','Open Sans',arial,sans-serif;
-  color:#333;
-  margin:0;
+body {
+    background-color: #fff;
+    font-family: 'Noto Sans', 'Segoe UI', 'Lucida Grande', 'Open Sans', arial, sans-serif;
+    color: #333;
+    margin: 0;
 }
 
-b
-{
-  font-size:15px;
-  display:block;
-  padding:1.5% 0;
+b {
+    font-size: 15px;
+    display: block;
+    padding: 1.5% 0;
 }
 
-.input-holder
-{
-  width:100%;
-  border-bottom:1px solid #ecf0f1;
-  padding:0 4% 2%;
+.input-holder {
+    width: 100%;
+    border-bottom: 1px solid #ecf0f1;
+    padding: 0 4% 2%;
 }
 
-#chromecast-ip
-{
-  width:100%;
-  display:block;
-  border: none;
-  background: #e0e0e0;
-  font-size:15px;
-  margin:0 auto;
-  padding:2%;
+#chromecast-ip {
+    width: 100%;
+    display: block;
+    border: none;
+    background: #e0e0e0;
+    font-size: 15px;
+    margin: 0 auto;
+    padding: 2%;
 }
 
-#chromecast-ip:focus
-{
-	background: #f0f0f0;
+#chromecast-ip:focus {
+    background: #f0f0f0;
 }
 
-ul
-{
-  -moz-user-select:none;
-  margin:0;
-  padding:0;
+ul {
+    -moz-user-select: none;
+    margin: 0;
+    padding: 0;
 }
 
-ul .chromecast-item
-{
-  list-style:none;
-  height:34px;
-  display:block;
-  border-bottom:1px solid #ecf0f1;
-  margin:0;
-  padding:0 4%;
+ul .chromecast-item {
+    list-style: none;
+    height: 34px;
+    display: block;
+    border-bottom: 1px solid #ecf0f1;
+    margin: 0;
+    padding: 0 4%;
 }
 
-ul .chromecast-item:hover
-{
-  background-image:0;
+ul .chromecast-item:hover {
+    background-image: 0;
+    cursor: pointer;
+    background-color: #e0e0e0;
 }
 
-.chromecast-item .chromecast-name:before
-{
-  content:" ";
-  height:26px;
-  width:32px;
-  background-image:url(icons/chromecast-icon-32.png);
-  top:-2px;
-  left:-42px;
-  position:absolute;
+ul .chromecast-item:active {
+    background-color: #f0f0f0;
 }
 
-.chromecast-item .chromecast-name
-{
-  margin-left:42px;
-  line-height:34px;
-  font-size:15px;
-  position:relative;
-  font-weight:600;
+ul .chromecast-item .chromecast-name:before {
+    content: " ";
+    height: 26px;
+    width: 32px;
+    background-image: url(icons/chromecast-icon-32.png);
+    top: -2px;
+    left: -42px;
+    position: absolute;
 }
 
-.foxcast-settings
-{
-  position:absolute;
-  bottom:0;
-  width:100%;
+.chromecast-item .chromecast-name {
+    margin-left: 42px;
+    line-height: 34px;
+    font-size: 15px;
+    position: relative;
+    font-weight: 600;
 }
 
-.foxcast-settings li
-{
-  width:50%;
-  display:inline-block;
-  float:left;
-  text-align:center;
-  line-height:40px;
-  background-image:0;
-  background: #f0f0f0;
-  border-top:1px solid #95a5a6;
-  cursor: pointer;
+.foxcast-settings {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
-.foxcast-settings li:hover
-{
-  background-image:0;
-  background: #e0e0e0;
+.foxcast-settings li {
+    width: 50%;
+    display: inline-block;
+    float: left;
+    text-align: center;
+    line-height: 40px;
+    background-image: 0;
+    background: #f0f0f0;
+    border-top: 1px solid #95a5a6;
+    cursor: pointer;
+}
+
+.foxcast-settings li:hover {
+    background-image: 0;
+    background: #e0e0e0;
 }
