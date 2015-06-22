@@ -1,6 +1,6 @@
 # Foxcast
-Making a Chromecast work on Firefox with this extension
-*EDIT:*
+Making a Chromecast work on Firefox with this extension  
+**EDIT:**  
 To keep up the development we switched to a 3th party program that has to run in the background to make this work.
 
 ## Goals:
@@ -9,7 +9,7 @@ To keep up the development we switched to a 3th party program that has to run in
 - [ ] Create a similair layout/style as [this](https://lh3.googleusercontent.com/EkTIaGSPLZHBuEv9Dk7fDDG_Lt3kjJ1u9stXLvaZqMQsaMqbSp1-Gg06HC6UPALQFuBPypkimKo=s640-h400-e365).
 - [ ] Autosearch for Chromecasts in network by implementing something similar like [this](https://github.com/xat/chromecast-scanner/blob/master/index.js).
 - [ ] Add cast button to youtube player using a content script.
-- [ ] Make **Foxcast** work without [Caster](https://github.com/entertailion/Caster).
+- [ ] Make *Foxcast* work without [Caster](https://github.com/entertailion/Caster).
 - [ ] Implementing better way for sending video's to youtube.
 - [ ] Implementing support for more services.
 - [ ] Implementing support for the Chromecast SDK.
