@@ -5,35 +5,38 @@
  * This allow to console.log in a firefox default configuration
  */
 
-// var data = require('sdk/self').data;
-// var {Cc, Ci} = require('chrome');
-// var { ToggleButton } = require('sdk/ui/button/toggle');
-// var { PageMod } = require('sdk/page-mod');
-// var { Panel } = require('sdk/panel');
-// var Request = require("sdk/request").Request;
-var thisIp;
-
-// Structure of https://github.com/lejenome/html5-video-everywhere/blob/master/lib/main.js
-
+var data = require('sdk/self').data;
+var ToggleButton = require('sdk/ui/button/toggle').ToggleButton;
+var Panel = require('sdk/panel').Panel;
+var Request = require("sdk/request").Request;
+var thisIp, chromecastConnection;
+/*
+* Elements
+*/
 var popup = Panel({
-    contentURL: data.url('popup.html'),
-    contentScriptFile: data.url('popup.js'),
+    contentURL: data.url('./popup.html'),
+    contentScriptFile: data.url('./popup.js'),
     onHide: function () {
         button.state('window', {checked: false});
     }
 });
 
-// Show the popup when the user clicks the button.
-function handleClick(state) {
-    Request({
-        content: "v=jlHZ_Z8sUMs",
-        contentType: "application/json",
-        url: "http://192.168.0.134:8008/apps/YouTube",
-        onComplete: function (response) {
-            console.log("request done" + response.status + " - " + response.statusText + " - " + JSON.stringify(response.headers));
-        }
-    }).post();
+var button = ToggleButton({
+    id: 'show-popup',
+    label: 'Foxcast',
+    icon: {
+        '16': './images/icon-16.png',
+        '32': './images/icon-32.png',
+        '64': './images/icon-64.png'
+    },
+    onClick: openPopup
+});
 
+
+/*
+* Listeners
+*/
+function openPopup(state) {
     if (state.checked) {
         popup.show({
             position: button,
@@ -43,29 +46,25 @@ function handleClick(state) {
     }
 }
 
-// Create a button
-var button = ToggleButton({
-    id: 'show-popup',
-    label: 'Foxcast',
-    icon: {
-        '16': './images/icon-16.png',
-        '32': './images/icon-32.png',
-        '64': './images/icon-64.png'
+var api = {
+    searchEndpoint: function() {
+        return "/devices"
     },
-    onClick: handleClick
-});
+    searchCallback: function(response) {
+        popup.port.emit("search_chromecasts", response.json);
+    },
+    mediaEndpoint: function(chromecast, url) {
+        return "/devices/" + chromecast + "/media/" + url
+    },
+    mediaCallback: function(url) {
+        console.log(response.json)
+    }
+}
 
-
-popup.port.on("text-entered", function(ip) {
+popup.port.on("search_chromecasts", function() {
     Request({
-        url: "http://" + ip + ":8008/ssdp/device-desc.xml",
-        content: {q: "test"},
-        onComplete: function (response) {
-            thisIp = ip;
-            var doc = Cc["@mozilla.org/xmlextras/domparser;1"].createInstance(Ci.nsIDOMParser).parseFromString(response.text, "application/xml");
-            console.log(doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
-            popup.port.emit("getChromeInformation", doc.getElementsByTagName("device")[0].getElementsByTagName("friendlyName")[0].childNodes[0].nodeValue);
-        }
+        url: "http://127.0.0.1:5000" + api.searchEndpoint(),
+        onComplete: api.searchCallback
     }).get();
 });
 

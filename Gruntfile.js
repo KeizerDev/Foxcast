@@ -22,6 +22,12 @@ module.exports = function(grunt) {
         shell: {
             serveXpi: {
                 command: 'jpm run <%= config.dist %>'
+            },
+            serveProject: {
+                command: [
+                    'cd <%= config.app %>',
+                    'jpm run . -b /usr/bin/firefox'
+                ].join('&&')
             }
         },
         jpm: {
@@ -33,11 +39,11 @@ module.exports = function(grunt) {
         watch: {
             xpi: {
                 files: ['<%= config.app %>/**/*'],
-                tasks: ['shell:jpm', 'shell:serveXpi']
+                tasks: ['shell:jpm', 'shell:serveProject']
             }
         }
     });
 
-    grunt.registerTask('run', ['shell:serveXpi']);
-    grunt.registerTask('default', ['jpm:xpi', 'shell:serveXpi']);
+    grunt.registerTask('run', ['shell:serveProject']);
+    grunt.registerTask('default', ['jpm:xpi', 'shell:serveProject']);
 };

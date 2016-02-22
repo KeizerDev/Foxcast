@@ -99,6 +99,14 @@ ul .chromecast-item .chromecast-name:before {
     background-image: 0;
     background: #f0f0f0;
     border-top: 1px solid #95a5a6;
+}
+
+.foxcast-settings span {
+    width: 100%;
+    display: inline-block;
+    float: left;
+    text-align: center;
+    line-height: 40px;
     cursor: pointer;
 }
 
