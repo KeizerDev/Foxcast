@@ -1,9 +1,16 @@
 {
-    "name": "foxcast",
-    "id": "Foxcast@github.com",
-    "title": "Foxcast",
-    "description": "My Firefox Extension",
-    "author": "KeizerDev",
-    "license": "MPL 2.0",
-    "version": "0.1.0"
+  "title": "Foxcast",
+  "name": "foxcast",
+  "id": "KeizerDev@Foxcast",
+  "version": "0.0.1",
+  "description": "Chromecast support for Firefox",
+  "main": "index.js",
+  "author": "KeizerDev",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "MIT",
+  "keywords": [
+    "chromecast"
+  ]
 }
